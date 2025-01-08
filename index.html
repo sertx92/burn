@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Burn Video (No Wallet Connect)</title>
+    <!-- style.css è nella stessa cartella di index.html -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- Sfondo a tutto schermo con l’immagine liberate.png, ora in media/ -->
+    <img
+      src="./media/liberate.png"
+      alt="Sfondo"
+      class="fullscreen-image"
+      id="startBackground"
+    />
+
+    <!-- Pulsante per avviare il video -->
+    <button id="startBtn" class="connect-btn">
+      LIBERATE YOUR PUPPET
+    </button>
+
+    <!-- VIDEO a schermo intero, ora in media/ -->
+    <video
+      id="burnVideo"
+      class="fullscreen-video hidden"
+      src="./media/burn.mp4"
+      autoplay
+      playsinline
+      muted
+    ></video>
+
+    <!-- Immagine finale, ora in media/ -->
+    <img
+      id="burnImage"
+      src="./media/burn.png"
+      alt="Burn Image"
+      class="fullscreen-video hidden"
+    />
+
+    <!-- Contenitore per il testo (prima e seconda fase) -->
+    <div id="instructions" class="instructions hidden"></div>
+
+    <!-- Script principale (se src/main.js sta in cartella src/) -->
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
