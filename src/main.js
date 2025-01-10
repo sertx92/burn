@@ -1,4 +1,4 @@
-// Non usiamo connect wallet: solo il flusso video + testi, 
+// Non usiamo connect wallet: solo il flusso video + testi,
 // e nel secondo blocco c'è l'indirizzo su una riga, e il tasto COPY su quella successiva.
 
 let hasTypedFirstText = false;
@@ -43,8 +43,12 @@ const firstLines = [
 
 /**
  * SECONDO BLOCCO DI TESTO
- * - Riga per l'indirizzo
- * - Riga successiva (vuota, ma segnalata con "copyBtn: true") per inserire il pulsante COPY
+ * - Primo indirizzo + pulsante COPY
+ * - Riga vuota
+ * - Testo "YOU'LL RECEIVE THE AIRDROP..."
+ * - Riga vuota
+ * - Testo "YOU CAN USE THIS ADDRESS..."
+ * - Secondo indirizzo + pulsante COPY
  */
 const secondLines = [
   {
@@ -61,16 +65,14 @@ const secondLines = [
   },
   {
     align: 'center',
-    copyBtn: true,
-    segments: [
-      // Niente testo digitato, è solo un "placeholder"
-      { text: '', color: '#fff' }
-    ]
+    copyBtn: true, // Pulsante COPY sotto il primo indirizzo
+    address: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+    segments: []
   },
   {
     align: 'center',
     segments: [
-      { text: '', color: '#fff' }
+      { text: '', color: '#fff' } // Riga vuota
     ]
   },
   {
@@ -79,24 +81,29 @@ const secondLines = [
       { text: "YOU'LL RECEIVE THE AIRDROP TO THE SENDING WALLET", color: '#fff' }
     ]
   },
-  // riga vuota
   {
     align: 'center',
     segments: [
-      { text: '', color: '#fff' }
+      { text: '', color: '#fff' } // Riga vuota
     ]
   },
   {
     align: 'center',
     segments: [
-      { text: 'REMEMBER', color: '#ffc700' }
+      { text: 'YOU CAN USE THIS ADDRESS FOR ME AND BATCH TRANSFERS', color: '#fff' }
     ]
   },
   {
     align: 'center',
     segments: [
-      { text: "DON'T BURN ANY 1/1 OR DRAKO TRAITS", color: '#fff' }
+      { text: 'bc1p2v867xghhvu7psnjnrn3qfatvjfdysrvgvq656cwasldef2r5u3qz95znz', color: '#ffc700' }
     ]
+  },
+  {
+    align: 'center',
+    copyBtn: true, // Pulsante COPY sotto il secondo indirizzo
+    address: 'bc1p2v867xghhvu7psnjnrn3qfatvjfdysrvgvq656cwasldef2r5u3qz95znz',
+    segments: []
   }
 ];
 
@@ -157,7 +164,7 @@ function showInstructionsTypewriter(lines, onComplete) {
     }
 
     const line = lines[currentLineIndex];
-    const { segments, align, copyBtn } = line;
+    const { segments, align, copyBtn, address } = line;
 
     // Crea un <div> per questa riga
     const lineEl = document.createElement('div');
@@ -167,16 +174,20 @@ function showInstructionsTypewriter(lines, onComplete) {
 
     instructionsEl.appendChild(lineEl);
 
+    // Se la riga prevede un pulsante COPY
+    if (copyBtn && address) {
+      createCopyButton(lineEl, address);
+      currentLineIndex++;
+      setTimeout(nextLine, 300);
+      return;
+    }
+
     let currentSegmentIndex = 0;
 
     function nextSegment() {
       if (currentSegmentIndex >= segments.length) {
         // Fine di questa riga
         currentLineIndex++;
-        // Se la riga prevede un pulsante COPY
-        if (copyBtn) {
-          createCopyButton(lineEl);
-        }
         setTimeout(nextLine, 300);
         return;
       }
@@ -199,7 +210,7 @@ function showInstructionsTypewriter(lines, onComplete) {
         if (charIndex < seg.text.length) {
           setTimeout(typeChar, 60);
         } else {
-          // Rimosso cursore
+          // Rimuove il cursore
           spanEl.textContent = currentText;
           currentSegmentIndex++;
           setTimeout(nextSegment, 100);
@@ -246,26 +257,21 @@ function createBurnButton() {
 }
 
 /**
- * Crea il pulsante COPY (in una riga a parte, sotto l'indirizzo)
+ * Crea il pulsante COPY (in una riga a parte)
  */
-function createCopyButton(lineEl) {
-  // Creiamo un pulsante e una label
+function createCopyButton(lineEl, address) {
+  // Creiamo un pulsante COPY
   const copyBtn = document.createElement('button');
   copyBtn.className = 'copy-btn';
   copyBtn.textContent = 'COPY';
 
-  const copyLbl = document.createElement('span');
-  copyLbl.className = 'copy-label';
-  copyLbl.textContent = 'COPY ADDRESS';
-
-  // Appendiamoli sulla stessa riga
+  // Appendiamo il pulsante sulla stessa riga
   lineEl.appendChild(copyBtn);
-  lineEl.appendChild(copyLbl);
 
   // Funzionalità di copia
   copyBtn.addEventListener('click', () => {
     navigator.clipboard
-      .writeText('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa')
+      .writeText(address)
       .then(() => {
         alert('Address copied to clipboard!');
       })
