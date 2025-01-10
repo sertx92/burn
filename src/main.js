@@ -78,12 +78,6 @@ const secondLines = [
   {
     align: 'center',
     segments: [
-      { text: "YOU'LL RECEIVE THE AIRDROP TO THE SENDING WALLET", color: '#fff' }
-    ]
-  },
-  {
-    align: 'center',
-    segments: [
       { text: 'YOU CAN USE THIS ADDRESS FOR ME AND BATCH TRANSFERS', color: '#fff' }
     ]
   },
@@ -98,6 +92,12 @@ const secondLines = [
     copyBtn: true, // Pulsante COPY sotto il secondo indirizzo
     address: 'bc1p2v867xghhvu7psnjnrn3qfatvjfdysrvgvq656cwasldef2r5u3qz95znz',
     segments: []
+  },
+  {
+    align: 'center',
+    segments: [
+      { text: "YOU'LL RECEIVE THE AIRDROP TO THE SENDING WALLET", color: '#fff' }
+    ]
   }
 ];
 
