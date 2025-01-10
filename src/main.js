@@ -84,12 +84,6 @@ const secondLines = [
   {
     align: 'center',
     segments: [
-      { text: '', color: '#fff' } // Riga vuota
-    ]
-  },
-  {
-    align: 'center',
-    segments: [
       { text: 'YOU CAN USE THIS ADDRESS FOR ME AND BATCH TRANSFERS', color: '#fff' }
     ]
   },
